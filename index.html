@@ -94,7 +94,7 @@
     d3.json("sol_2018_only.geojson", function(error, geojson) {
       if (error) throw error;
       var projection = d3.geoMercator()
-        .fitExtent([[-width, -height], [width, height]], geojson);
+        .fitExtent([[-width, -height], [width, 2*height]], geojson);
       var path = d3.geoPath().projection(projection);
       var tooltip = d3.select("#map").append("div")
         .attr("class", "tooltip")
