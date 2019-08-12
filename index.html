@@ -24,19 +24,6 @@
       width: 25%;
     }
     /* Optimized for 720x425 px and 375x425 px embeds*/
-    @media screen and (max-width: 500px) {
-      #textbox {
-        background-color: #fff;
-        height: 300px;
-        width: 100%;
-        text-align: right;
-      }
-      #map {
-        position: relative;
-        width: 500px;
-        top: 100px;
-      }
-    }
     body {
       font-family: arial;
       font-size: 12px;
@@ -80,13 +67,14 @@
     var map = d3.select("#map"),
         active = d3.select(null),
         width = map.node().getBoundingClientRect().width - 20,
-        height = (width * 0.55) - 20;
+        height = window.innerHeight;
+        rect = map.node().getBoundingClientRect();
     var color = d3.scaleLinear()
-      .domain([68, 100])
+      .domain([60, 100])
       .range(["white", "#003387"]);
     var svg = map.append("svg")
       .attr("width", width)
-      .attr("height", height);
+      .attr("height", 0.9*height);
     var baseLayer = svg.append("g")
       .classed("base-layer", true);
     var mapLayer = svg.append("g")
@@ -94,7 +82,7 @@
     d3.json("sol_2018_only.geojson", function(error, geojson) {
       if (error) throw error;
       var projection = d3.geoMercator()
-        .fitExtent([[-width, -height], [width, 2*height]], geojson);
+        .fitExtent([[0, 0], [2*width/3, 0.9*height]], geojson);
       var path = d3.geoPath().projection(projection);
       var tooltip = d3.select("#map").append("div")
         .attr("class", "tooltip")
@@ -123,5 +111,8 @@
             tooltip.html();
           });
       });
+
+      console.log(rect)
+      console.log(height)
   </script>
 </body>
