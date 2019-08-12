@@ -94,7 +94,7 @@
     d3.json("sol_2018_only.geojson", function(error, geojson) {
       if (error) throw error;
       var projection = d3.geoMercator()
-        .fitExtent([[-1.2*width, -5*height/3], [width, height]], geojson);
+        .fitExtent([[-width, -height], [width, height]], geojson);
       var path = d3.geoPath().projection(projection);
       var tooltip = d3.select("#map").append("div")
         .attr("class", "tooltip")
@@ -111,8 +111,8 @@
               .duration(200)
               .style("opacity", 0.9);
             tooltip.html("<b>" + d.properties.NAME + "</b></br>"
-                          + "English: Reading: " + d3.format("%")(d.properties.READING18) + "</br>"
-                          + "Mathematics: " + d3.format("%")(d.properties.MATH18))
+                          + "English: Reading: " + d3.format("p")(d.properties.READING18) + "</br>"
+                          + "Mathematics: " + d3.format("p")(d.properties.MATH18))
               .style("left", (d3.event.pageX) + "px")
               .style("top", (d3.event.pageY - 28) + "px");
           })
