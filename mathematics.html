@@ -102,7 +102,7 @@
       .classed("base-layer", true);
     var mapLayer = svg.append("g")
       .classed("map-layer", true);
-    d3.json("sol_2019_test.geojson", function(error, geojson) {
+    d3.json("sol_2019_final.geojson", function(error, geojson) {
       if (error) throw error;
       var projection = d3.geoMercator()
         .fitExtent([[0, 0], [2*width/3, 0.9*height]], geojson);
