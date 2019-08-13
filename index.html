@@ -76,11 +76,12 @@
   <script>
     function checkScore(score1, score2) {
       var percentdiff = 100*Math.abs((score2 - score1)/score1);
+      var rounded = d3.format(".0%")(percentdiff);
 
       if (score1 < score2) {
-        return ' (Up ' + percentdiff.toString() + '%)'
+        return ' (Up ' + rounded.toString() + '%)'
       } else if (score1 > score2) {
-        return ' (Down ' + percentdiff.toString() + '%)'
+        return ' (Down ' + rounded.toString() + '%)'
       } else {
         return ''
       }
