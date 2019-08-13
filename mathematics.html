@@ -75,12 +75,13 @@
 
   <script>
     function checkScore(score1, score2) {
-      var percentdiff = 100*Math.abs((score2 - score1)/score1);
-
+      var percentdiff = Math.abs((score2 - score1)/score1);
+      var rounded = d3.format(".0%")(percentdiff);
+      
       if (score1 < score2) {
-        return ' (Up ' + percentdiff.toString() + '%)'
+        return ' (Up ' + rounded.toString() + ')'
       } else if (score1 > score2) {
-        return ' (Down ' + percentdiff.toString() + '%)'
+        return ' (Down ' + rounded.toString() + ')'
       } else {
         return ''
       }
@@ -92,7 +93,7 @@
         height = window.innerHeight;
         rect = map.node().getBoundingClientRect();
     var color = d3.scaleLinear()
-      .domain([0.6, 0.9])
+      .domain([0.6, 0.92])
       .range(["white", "#003387"]);
     var svg = map.append("svg")
       .attr("width", width)
@@ -114,7 +115,7 @@
         .enter().append("path")
           .attr("d", path)
           .style("fill", function(d) {
-            return color(d.properties.MATH18);
+            return color(d.properties.MATH19);
           })
           .on("mouseover", function(d) {
             tooltip.transition()
