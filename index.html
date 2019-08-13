@@ -92,7 +92,7 @@
         height = window.innerHeight;
         rect = map.node().getBoundingClientRect();
     var color = d3.scaleLinear()
-      .domain([0.6, 0.9])
+      .domain([0.6, 0.92])
       .range(["white", "#003387"]);
     var svg = map.append("svg")
       .attr("width", width)
@@ -101,7 +101,7 @@
       .classed("base-layer", true);
     var mapLayer = svg.append("g")
       .classed("map-layer", true);
-    d3.json("sol_2019_test.geojson", function(error, geojson) {
+    d3.json("sol_2019_final.geojson", function(error, geojson) {
       if (error) throw error;
       var projection = d3.geoMercator()
         .fitExtent([[0, 0], [2*width/3, 0.9*height]], geojson);
@@ -114,7 +114,7 @@
         .enter().append("path")
           .attr("d", path)
           .style("fill", function(d) {
-            return color(d.properties.READING18);
+            return color(d.properties.READING19);
           })
           .on("mouseover", function(d) {
             tooltip.transition()
