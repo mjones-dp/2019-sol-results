@@ -23,6 +23,13 @@
       top: 100px;
       width: 25%;
     }
+    #credit {
+      position: absolute;
+      padding: 10px;
+      right: 0px;
+      bottom: 0px;
+      font-size: 0.5vw;
+    }
     /* Optimized for 720x425 px and 375x425 px embeds*/
     body {
       font-family: arial;
@@ -59,18 +66,33 @@
 <body>
   <div id="textbox">
     <h3 style="font-size: 3vw;">2018-19 SOL pass rates for English: Reading</h3>
-    <p>Data from <a href="http://www.doe.virginia.gov/statistics_reports/sol-pass-rates/index.shtml">Virginia Department of Education</a>.</p>
+    <p style="font-size: 1vw;">Data from <a href="http://www.doe.virginia.gov/statistics_reports/sol-pass-rates/index.shtml">Virginia Department of Education</a>.</p>
+  </div>
+  <div id="credit">
+    <p>View this project on <a href="https://github.com/mjones-dp/2019-sol-results">Github</a> (Matt Jones / Staff)</p>
   </div>
   <div id="map"></div>
 
   <script>
+    function checkScore(score1, score2) {
+      var percentdiff = 100*Math.abs((score2 - score1)/score1);
+
+      if (score1 < score2) {
+        return ' (Up ' + percentdiff.toString() + '%)'
+      } else if (score1 > score2) {
+        return ' (Down ' + percentdiff.toString() + '%)'
+      } else {
+        return ''
+      }
+    };
+
     var map = d3.select("#map"),
         active = d3.select(null),
         width = map.node().getBoundingClientRect().width - 20,
         height = window.innerHeight;
         rect = map.node().getBoundingClientRect();
     var color = d3.scaleLinear()
-      .domain([60, 100])
+      .domain([0.6, 1])
       .range(["white", "#003387"]);
     var svg = map.append("svg")
       .attr("width", width)
@@ -79,7 +101,7 @@
       .classed("base-layer", true);
     var mapLayer = svg.append("g")
       .classed("map-layer", true);
-    d3.json("sol_2018_only.geojson", function(error, geojson) {
+    d3.json("sol_2019_test.geojson", function(error, geojson) {
       if (error) throw error;
       var projection = d3.geoMercator()
         .fitExtent([[0, 0], [2*width/3, 0.9*height]], geojson);
@@ -99,8 +121,8 @@
               .duration(200)
               .style("opacity", 0.9);
             tooltip.html("<b>" + d.properties.NAME + "</b></br>"
-                          + "English: Reading: " + d3.format("p")(d.properties.READING18) + "</br>"
-                          + "Mathematics: " + d3.format("p")(d.properties.MATH18))
+                          + "Passed test in 2018: " + d3.format(".0%")(d.properties.READING18) + "</br>"
+                          + "Passed test in 2019: " + d3.format(".0%")(d.properties.READING19) + checkScore(d.properties.READING18, d.properties.READING19))
               .style("left", (d3.event.pageX) + "px")
               .style("top", (d3.event.pageY - 28) + "px");
           })
@@ -111,8 +133,5 @@
             tooltip.html();
           });
       });
-
-      console.log(rect)
-      console.log(height)
   </script>
 </body>
